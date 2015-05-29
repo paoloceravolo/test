@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Programmazione Web e Mobile</title>
+
+		<meta name="description" content="Un corso per capire come usare il Web">
+		<meta name="author" content="Paolo Ceravolo">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../css/pwm.css">
+		<link rel="stylesheet" href="../css/reveal.min.css">
+		<link rel="stylesheet" href="../css/theme/SSRI.css" id="theme">
+		<!-- For printing PDF adding ?print-pdf at the end of the page, then CMD+P on Google Chrome -->
+		<!-- <link rel="stylesheet" href="../css/print/pdf.css"> -->
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="../lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+			<!-- <div class="footer"><img src="../img/logo-unimi-transparent.gif"/> <p>Dipartimento di Informatica</p><p>Programmazione Web e Mobile - PAOLO CERAVOLO</p></div>-->
+			
+				<section>
+				
+					<h1>L6 - Esercizio: Mashup con Javascript</h1>
+					<h3></h3>
+					<h3></h3>
+					<br>
+					<p class="text-left text-cope">Programmazione Web e Mobile</p>
+					<p class="text-left text-cope">Unità didattica 3 - Dati nel Web</p>
+					<p class="text-left text-cope">Modulo 2 - Interfacce Utente</p>
+					<br>
+					<p class="text-left"><a href="http://homes.di.unimi.it/ceravolo/" style="color: #000; font-weight: bold">Paolo Ceravolo</a></p>	
+					<hr>
+					<p>Università degli Studi di Milano - SSRI - CdL Online</p>	
+
+				</section>
+
+				<section>
+					<h2>Design Pattern</h2>
+					<img src="img/DP3a.png">
+				</section>
+
+				<section>
+					<h2>Design Pattern</h2>
+					<img src="img/DP3b.png">
+				</section>
+
+				<section>
+					<h2>Requisiti</h2>
+					<p class="text-left">Costruire un sito per una comunità di ricercatori che promuove attività di definizione dei criteri di qualità della ricerca </p>
+					<br>
+					<p class="text-left">I contenuti di maggiore importanza sono: </p>
+					<table>
+						<tr><td>
+					<ul style="line-height:1.4">
+						<li>Ragione e scopo del gruppo, regole di accesso al gruppo</li>
+						<li>Lista di partecipanti sempre aggiornata</li>
+						<li>Lista di eventi sempre aggiornata</li>
+					</ul>
+					<td>
+						<td></td>
+						</tr>
+					</table>
+				</section>
+
+				<section>
+					<h2>Requisiti</h2>
+					<p class="text-left">Costruire un sito per una comunità di ricercatori che promuove attività di definizione dei criteri di qualità della ricerca </p>
+					<br>
+					<p class="text-left">I contenuti di maggiore importanza sono: </p>
+					<table>
+						<tr><td>
+					<ul style="line-height:1.4">
+						<li>Ragione e scopo del gruppo, regole di accesso</li>
+						<li>Lista di partecipanti sempre aggiornata</li>
+						<li>Lista di eventi sempre aggiornata</li>
+					</ul>
+					<td>
+						<td>
+					<ul style="line-height:1.4; color:orange">
+						<li>Singola pagina, testo semplice</li>
+						<li>Aggiornata da sorgente già gestita dagli utenti</li>
+						<li>Aggiornabile facilmente da più utenti</li>
+					</ul>
+						</td>
+						</tr>
+					</table>
+				</section>	
+
+				<section>
+					<h2>Scelte tecnologiche</h2>
+					<p class="text-left"> Si può procedere attraverso il riuso di modelli e di servizi già disponibili </p>
+
+					<br>
+					<ul style="line-height:1.4">
+						<li>Un template per una <a>singola pagina</a> con un semplice <a>scorrimento con effetto parallasse</a></li>
+						<br>
+						<li>API JAVASCRIPT di LinkedIn per l'<a>acquisizione automatica </a> dei profili dei partecipanti </li>
+						<br>
+						<li>Una EVENT LIST in JAVASCRIPT per creare in pochi passi e in <a>modalità WYSIWYG</a> una lista di eventi, la persistenza dei dati che descrivono gli eventi è gestita attraverso un database Mongo, fornendo la massima separazione tra applicazione e dati</li>
+					</ul>
+				
+				</section>
+
+<section>
+				<section>
+					<h2>Template HTML5: download</h2>
+					<p class="text-left">Scegliamo di scaricare un template HTML5 da <a href="http://html5up.net">HTML5 UP</a></p>
+					
+					<iframe style="height:450px;width:100%" src="http://html5up.net/read-only"></iframe>		
+				</section>
+				
+				<section>
+					<h2>Template HTML5: crediti</h2>
+					<p class="text-left">Una volta scaricato il template possiamo iniziare a modificarlo</p>
+					<p class="text-left">Per prima cosa modifichiamo i crediti citando la sorgente, come richiesto dalla licenza</p>
+					
+					<pre><code data-trim contenteditable class="language-html">
+<!--
+<section id="footer">
+	<div class="container">
+		<ul class="copyright">
+			<li>&copy; <a href="www.unimi.it">UNIMI</a>. 
+			All rights reserved.</li>
+			<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+		</ul>
+	</div>
+</section> -->
+
+					</code></pre>
+									
+				</section>
+
+				<section>
+					<h2>Template HTML5: struttura</h2>
+					<p class="text-left">È necessario comprendere la struttura della pagina</p>
+					
+					<pre><code data-trim contenteditable class="language-html">
+<!--  <body>
+	<div id="wrapper">
+		<section id="header" class="skel-layers-fixed">
+			<header>CONTENUTO HEADER</header>
+			<nav id="nav">LISTA NAV</nav>
+			<div id="main">
+				<section id="one">
+					<div class="container">
+								<header class="major">CONTENUTO HEADER</header>
+								<div class="content">CONTENUTO CONTENT</div>
+					</div>
+				</section>
+				<section id="two">
+					<div class="container">
+								<header class="major">CONTENUTO HEADER</header>
+								<div class="content">CONTENUTO CONTENT</div>
+					</div>
+				</section>
+				<section id="footer"></section>
+			</div>
+		</section>
+	</div>
+</body> -->
+
+					</code></pre>
+									
+				</section>
+
+<section>
+					<h2>Template HTML5: Stile</h2>
+					<p class="text-left">Alcuni dati posso essere nel foglio di stile</p>
+					
+					<pre><code data-trim contenteditable class="language-html">
+#one:before {
+		background-image: url("../images/banner.jpg");
+		background-position: top right;
+		background-repeat: no-repeat;
+		background-size: cover;
+		content: '';
+		display: block;
+		height: 15em;
+		width: 100%;
+	}
+
+
+					</code></pre>
+									
+				</section>
+
+<section>
+					<h2>Template HTML5: Contenuti</h2>
+					<p class="text-left">Le sezioni con contenuto stabile potranno essere riempite manualmente </p>
+					
+					<pre><code data-trim contenteditable class="language-html">
+<!-- <section id="one">
+	<div class="container">
+		<header class="major">
+			<h2>Aims and scope</h2>
+			<hr>
+		</header>
+		<div class="content">
+			<h4>Aims</h4>
+			<ul>
+				<li>For the benefit of society, to promote visibility and to increase the impact of research and development in the database area, especially in the fields defined in the scope of the working group.</li> -->
+
+
+
+					</code></pre>
+									
+				</section>
+
+</section>
+
+
+				<section>
+					<section>
+						<h2>LinkedIn API</h2>
+					<p class="text-left">Per i profili dei membri del gruppo si sceglie invece di acquisire i dati da un sorgente già esistente</p>
+						<ul><li>specializzata nella descrizione di profili professionali</li>
+						<li>verso cui gli utenti hanno maggiori motivazioni a garantire un aggiornamento</li></ul>
+					<p class="text-left">In particolare LinkedIn possiede delle API JAVASCRIPT che consentono la lettura dei dati, senza la necessità di un supporto di scripting lato server</p>
+
+				<a href="http://developer.linkedin.com/javascript">Javascript API Reference</a>
+					</section>
+					<section>
+						<h2>LinkedIn API: Key</h2>
+					<p class="text-left">Le API agiscono attraverso uno script che si attiva solo per gli utenti registrati, accettando chiamate che provengono solo dal dominio dichiarato in fase di registrazione </p>
+
+					<img width="50%" height="200px" src="img/LinkedInJavascriptAPI.png" alt="LinkedIn Javascript API">
+
+					<p class="text-left">Una volta eseguita la registrazione la chiave va inserita all'interno della pagina che dovrà richiedere i servizi linkedIn</p>
+					
+					<pre><code data-trim contenteditable class="language-html">
+
+<script type="text/javascript" src="http://platform.linkedin.com/in.js">
+	api_key: 770v9gu9cn3btw
+</script>
+
+					</code></pre>
+						
+					</section>
+					<section>
+						<h2>LinkedIn API: Member Profile</h2>
+					<p class="text-left">I profili degli utenti possono essere quindi inclusi ancorando l'URL pubblica del profilo</p>
+
+					<pre><code data-trim contenteditable class="language-html">
+
+<script type="IN/MemberProfile" data-id="https://www.linkedin.com/in/paoloceravolo" 
+data-format="inline" data-related="false" data-width="300">
+</script>
+
+					</code></pre>
+
+					<p class="text-left">Il badge visualizzato includerà le informazioni dell'intestazione rese pubbliche nelle impostazioni del profilo </p>
+
+					<img width="40%" height="200px" src="img/linkedInBadge.png" alt="linkedIn Badge Example">
+						
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Event list in JAVASCRIPT</h2>
+					<p class="text-left">La gestione della lista degli eventi viene gestita attraverso uno script che lavora con dati accessibili con chiamate asincrone e cross-Domain in JAVASCRIPT</p>
+					<ul><li>chiamate asincorone utilizzando l'oggetto <code>XMLHttpRequest</code> </li>
+						<li><code>XMLHttpRequest</code> livello 2 consente tra le altre cose chiamate corss-domain, a condizione che il server abbia definito di accettare la richiesta</li></ul>
+
+						<pre><code contenteditable>
+Access-Control-Allow-Origin: http://example.com
+						</code></pre>
+
+						<pre><code contenteditable>>
+Access-Control-Allow-Origin: *
+						</code></pre>
+				
+
+					</section>
+					<section>
+						<h2>Event list in JAVASCRIPT: interfaccia</h2>
+					<p class="text-left">Dal punti di vista dell'interfaccia la sezione degli eventi sarà caratterizzata da due aree: <em>loadevents</em> dove saranno visualizzati i dati; <em>eventsform</em> per inviare nuovi dati </p>
+					
+					<pre><code data-trim contenteditable class="language-html">
+
+<!-- <h3>Calendar</h3>
+
+<hr><div id="loadevents"></div><hr>
+
+<form id="eventsform">
+	<div class="row uniform">
+		<div class="12u">
+			<input type="text" name="eventname" id="eventname" placeholder="Add an event name" />
+			<input type="text" name="eventdate" id="eventdate" />
+		</div>
+	</div>
+	<div class="row uniform">
+		<div class="8u">
+			<ul class="feature-icons">
+				<li class="fa-lock" id="lockunlock"><input type="button" class="special" value="Add your event" id="addevent" disabled onclick="makeCorsPost()"/></li>
+				<li><input type="text" id="unlock" placeholder="Unlock" /></li>
+			</ul>
+		</div>
+	</div>
+</form> -->
+
+					</code></pre>
+						
+					</section>
+					<section>
+						<h2>Event list in JAVASCRIPT: i dati</h2>
+					<p class="text-left">I dati provengono da un DB Mongo che li rappresenta come documenti JSON</p>
+					<p class="text-left">Definiremo quindi nello script JS una variabile locale con la URL del DB e la chiave di autenticazione per accedere al DB</p>
+
+					<pre><code contenteditable class="language-javscript">
+
+  var url = 'https://api.mongolab.com/api/1/databases/tlw/collections/IFIP2-6?apiKey=Lnoo6FMt-lwuSBAQWlf61aruZoBkOkoF'; 
+
+					</code></pre>
+
+					<p class="text-left">Lo schema dell'URL è organizzato in base alla seguente struttura</p>
+
+					<pre><code contenteditable class="language-javscript">
+
+  https://api.mongolab.com/api/1/databases/YOUR-DATABASE/collections/YOUR-COLLECTION?apiKey=YOUR-API-KEY; 
+
+					</code></pre>
+						
+					</section>
+
+					<section>
+						<h2>Event list in JAVASCRIPT: i dati</h2>
+					<p class="text-left">I dati provengono da un DB Mongo che li rappresenta come documenti JSON</p>
+					<p class="text-left">Ad esempio nel nostro caso definiamo uno schema molto semplice</p>
+
+					<pre><code contenteditable class="language-javscript">
+
+{
+    "_id": {
+        "$oid": "5481f573e4b05a496d0788c1"
+    },
+    "eventname": "IFIP 2.6 Business Meeting, ONLINE",
+    "eventdate": "2014-12-05"
+}
+					</code></pre>
+						
+					</section>
+
+					<section>
+						<h2>Event list in JAVASCRIPT: il flusso di lavoro</h2>
+					<p class="text-left">Il codice JS sarà organizzato secondo il flusso di esecuzione seguente  </p>
+
+<img width="80%" height="380px" src="img/ExFlow.svg" alt="Flusso di esecuzione">
+						
+					</section>
+
+					<section>
+						<h2>Event list in JAVASCRIPT: avvio dell'esecuzione JS</h2>
+					<p class="text-left">L'esecuzione è avviata al caricamento della pagina</p>
+					<p class="text-left">La funzione è tuttavia mantenuta indipendente dall'evento perché dovrà essere chiamate anche successivamente</p>
+
+<pre><code contenteditable class="language-javscript">
+
+window.onload = function() {makeCorsRequest()}
+// NOT window.onload = function makeCorsRequest() {}
+
+
+</code></pre>
+						
+					</section>
+
+					<section>
+						<h2>Event list in JAVASCRIPT: chiamata CORS</h2>
+					<p class="text-left">Per prima cosa dovremo eseguire una chiamata al DB e leggere la <em>response</em></p>
+					<p class="text-left">In modo sintetico questo potrebbe avvenire attraverso un codice di questo tipo</p>
+
+<pre><code contenteditable class="language-javscript">
+
+var request = new XMLHttpRequest();
+    request.open("GET", "https://api.mongolab.com/api/1/databases/YOUR-DATABASE/collections/YOUR-COLLECTION?apiKey=YOUR-API-KEY");
+    request.send(null);
+
+</code></pre>
+						
+					</section>
+
+					<section>
+						<h2>Event list in JAVASCRIPT: chiamata CORS</h2>
+					<p class="text-left">Nel nostro caso costruiremo una funzione per parametrizzare la richiesta, in quanto eseguiremo richieste con metodi diversi</p>
+
+<pre><code contenteditable class="language-javscript">
+
+// Create the XHR object.
+function createCORSRequest(method, url) {
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+    // XHR for Chrome/Firefox/Opera/Safari.
+    xhr.open(method, url, true);
+  } else if (typeof XDomainRequest != "undefined") {
+    // XDomainRequest for IE.
+    xhr = new XDomainRequest();
+    xhr.open(method, url);
+  } else {
+    // CORS not supported.
+    xhr = null;
+  }
+  return xhr;
+}
+
+</code></pre>
+						
+					</section>
+
+					<section>
+						<h2>Event list in JAVASCRIPT: chiamata CORS</h2>
+					<p class="text-left">Definiremo poi la funzione per eseguire la GET vera e propria, richiamando <code>createCorsRequest</code> e <code>loadData</code> per visualizzare i dati nel documento </p>
+
+<pre><code contenteditable class="language-javscript">
+// Function to get data from the DB
+function makeCorsRequest() {
+
+  var xhr = createCORSRequest('GET', url);
+  if (!xhr) {
+    alert('CORS not supported');
+    return;
+  }
+
+  // Response handlers.
+  xhr.onload = function() {
+    var rq = xhr.responseText;
+    var result = JSON.parse(rq);
+    var status = xhr.status;
+    console.log("makeCorsRequest: " + status);
+
+   loadData(result);
+
+  };
+
+  xhr.onerror = function() {
+    alert('Woops, there was an error making the request.');
+  };
+
+  xhr.send();
+}
+</code></pre>
+						
+					</section>
+
+<section>
+						<h2>Event list in JAVASCRIPT: visualizzare i dati</h2>
+					<p class="text-left">Definiremo poi la funzione per visualizzare i dati all'interno dell'area definita dall'ID <code>loadevents</code></p>
+
+<pre><code contenteditable class="language-javscript">
+// Function to load data in the document,  to call just after getting response from the GET HTTP call
+function loadData(result){
+
+	// container is first empty to then load the full sata set
+	document.getElementById("loadevents").innerHTML = "";
+
+	for (i=0; i < result.length; i++){
+	eventname = document.createTextNode(result[i].eventname);
+	eventdate = document.createTextNode(result[i].eventdate);
+	d = document.createElement("div");
+	var att = document.createAttribute("class");       // Create a "class" attribute
+	att.value = "calendar";                           // Set the value of the class attribute
+	d.setAttributeNode(att); 
+	p1 = document.createElement("p");
+	p2 = document.createElement("p");
+	p1.appendChild(eventname);
+	p2.appendChild(eventdate);
+	d.appendChild(p1);
+	d.appendChild(p2);
+
+	document.getElementById("loadevents").appendChild(d);
+ 			}
+	}
+}
+</code></pre>
+						
+</section>
+<section>
+
+						<h2>Event list in JAVASCRIPT: aggiungere nuovi dati</h2>
+					<p class="text-left">Definiremo poi la funzione per aggiungere i dati al DB, creando un nuovo documento. 
+					<p class="text-left"> È possibile infatti sovrascrivere l'attuale <em>Collection</em> utilizzando il metodo PUT</p>
+					<p class="text-left">Per farlo dovremo ottenere i dati dalla form chiamando la funzione <code>getJsonForm()</code>. Una volta eseguita la richiesta POST dovremo chiamare nuovamente la funzione <code>makeCorsRequest()</code> per acquisire e visualizzare i nuovi dati</p>
+
+						
+</section>
+
+<section>
+
+						<h2>Event list in JAVASCRIPT: aggiungere nuovi dati</h2>
+
+<pre><code contenteditable class="language-javscript">
+// fucntion to POST data on the DB
+ function makeCorsPost() {
+
+// call the function returning data from the form
+ getJsonForm();
+
+  var xhr = createCORSRequest('POST', url);
+  if (!xhr) {
+    alert('CORS not supported');
+    return;
+  }
+
+   // Response handlers.
+  xhr.onload = function() {
+    var status = xhr.status;
+    console.log("makeCorsPost: " + status);
+    // when the response is available call a new request to update data
+    makeCorsRequest();
+	}
+
+  xhr.onerror = function() {
+    alert('Woops, there was an error making the request.');
+  };
+
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.send(jsondata);
+
+}
+</code></pre>
+						
+</section>
+
+<section>
+
+						<h2>Event list in JAVASCRIPT: aggiungere nuovi dati</h2>
+
+<pre><code contenteditable class="language-javscript">
+<!-- // Function to get data from the form, to call just befor starting the POST HTTP call
+function getJsonForm(){
+
+// taking all input values of the element with id eventsform and serilizing them using the JQUERY serializeArray function
+var jsonform = $("#eventsform input").serializeArray();
+
+// redefine the structure the data obtained from the form
+
+jsondata = new Object;
+for (i=0; i<jsonform.length; i++)
+{
+key = jsonform[i].name;
+val = jsonform[i].value;
+jsondata[key] = val;
+}
+
+//Convert the Object in a string befor using it in the HTTP call
+jsondata = JSON.stringify(jsondata);
+} -->
+</code></pre>
+						
+</section>
+
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="../lib/js/head.min.js"></script>
+		<script src="../js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+    			slideNumber: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: '../lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: '../plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: '../plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: '../plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
